@@ -32,6 +32,9 @@
             getDeckBtn = new Button();
             save3timesBtn = new Button();
             open3DecksBtn = new Button();
+            button1 = new Button();
+            button2 = new Button();
+            button3 = new Button();
             SuspendLayout();
             // 
             // createNGenerateDeckBtn
@@ -60,7 +63,7 @@
             save3timesBtn.Name = "save3timesBtn";
             save3timesBtn.Size = new Size(330, 29);
             save3timesBtn.TabIndex = 2;
-            save3timesBtn.Text = "wygeneruj i zapisz deck 3 krotnie";
+            save3timesBtn.Text = "wygeneruj i zapisz deck 1 krotnie";
             save3timesBtn.UseVisualStyleBackColor = true;
             save3timesBtn.Click += save3timesBtn_Click;
             // 
@@ -74,11 +77,44 @@
             open3DecksBtn.UseVisualStyleBackColor = true;
             open3DecksBtn.Click += open3DecksBtn_Click;
             // 
+            // button1
+            // 
+            button1.Location = new Point(466, 32);
+            button1.Name = "button1";
+            button1.Size = new Size(192, 29);
+            button1.TabIndex = 4;
+            button1.Text = "utwórz 2 pliki z kartami";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(466, 67);
+            button2.Name = "button2";
+            button2.Size = new Size(192, 29);
+            button2.TabIndex = 5;
+            button2.Text = "podmień karty";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(247, 52);
+            button3.Name = "button3";
+            button3.Size = new Size(94, 29);
+            button3.TabIndex = 6;
+            button3.Text = "button3";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(button3);
+            Controls.Add(button2);
+            Controls.Add(button1);
             Controls.Add(open3DecksBtn);
             Controls.Add(save3timesBtn);
             Controls.Add(getDeckBtn);
@@ -94,5 +130,8 @@
         private Button getDeckBtn;
         private Button save3timesBtn;
         private Button open3DecksBtn;
+        private Button button1;
+        private Button button2;
+        private Button button3;
     }
 }

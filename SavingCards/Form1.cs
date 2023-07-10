@@ -1,13 +1,17 @@
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Text;
 using System.Text.Json.Serialization;
 
 namespace SavingCards
 {
     public partial class Form1 : Form
     {
+        byte[] file1 = new byte[50];
+        byte[] file2 = new byte[50];
         Deck stock;
         const string path = "Deck.json";
+
         public Form1()
         {
             InitializeComponent();
@@ -69,36 +73,208 @@ namespace SavingCards
                 stock.Add(card);
             DealCards(listOfCards, "Karty z pliku:");
         }
-
+        string pathJSONDirectory = @"C:\C# pliki tekstowe\Deck.json";
         private void save3timesBtn_Click(object sender, EventArgs e)
         {
             DeckOfCards deck;
             List<DeckOfCards> decks = new List<DeckOfCards>();
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 1; i++)
             {
                 deck = new DeckOfCards(RandomListOfCards(3));
-               decks.Add(deck);
+                decks.Add(deck);
             }
             string decksJson = JsonConvert.SerializeObject(decks);
-                File.WriteAllText("DecksOfCards.dat", decksJson);
+            File.WriteAllText(pathJSONDirectory, decksJson);
 
             for (int i = 0; i < decks.Count; i++)
             {
                 int z = i + 1;
 
-            DealCards(decks[i].Cards,"Zapisany zestaw nr "+ z +":");
+                DealCards(decks[i].Cards, "Zapisany zestaw nr " + z + ":");
             }
         }
 
         private void open3DecksBtn_Click(object sender, EventArgs e)
         {
-           string content = File.ReadAllText("DecksOfCards.dat");
+            string content = File.ReadAllText("DecksOfCards.dat");
             var listOfDecks = JsonConvert.DeserializeObject<List<DeckOfCards>>(content);
             for (int i = 0; i < listOfDecks.Count; i++)
             {
-                int z = i+1;
-                DealCards(listOfDecks[i].Cards, "Zawartoœæ zestawu nr "+ z +":");
+                int z = i + 1;
+                DealCards(listOfDecks[i].Cards, "Zawartoœæ zestawu nr " + z + ":");
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Card card = new Card(Suits.Spades, Values.Ace);
+            Card card1 = new Card(Suits.Hearts, Values.Four);
+            //byte[] card01 = card;
+            File.Delete("plikNr1.txt");
+            File.Delete("plikNr2.txt");
+            File.WriteAllText("plikNr1.txt", JsonConvert.SerializeObject(card));
+            File.WriteAllText("plikNr2.txt", JsonConvert.SerializeObject(card1));
+            file1 = File.ReadAllBytes("plikNr1.txt");
+            file2 = File.ReadAllBytes("plikNr2.txt");
+            for (int i = 0; i < file1.Length; i++)
+            {
+                int z = i + 1;
+                if (file1[i] != file2[i])
+                {
+                    Debug.WriteLine("Znaleziono ró¿nice w elemencie {0}:  {1} i {2}", i, file1[i], file2[i]);
+
+                }
+            }
+            Debug.WriteLine("Pierwsza karta to {0} a druga to {1}", card.Name, card1.Name);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            //byte bit1 = (byte)Suits.Hearts;
+            file1[8] = (byte)49;
+            file1[18] = (byte)52;
+            file2[8] = (byte)48;
+            file2[18] = (byte)51;
+            File.Delete("plikNr1.txt");
+            File.Delete("plikNr2.txt");
+            File.WriteAllBytes("plikNr1.txt", file1);
+            File.WriteAllBytes("plikNr2.txt", file2);
+            Card card1 = JsonConvert.DeserializeObject<Card>((string)File.ReadAllText("plikNr1.txt"));
+            Card card2 = JsonConvert.DeserializeObject<Card>(File.ReadAllText("plikNr2.txt"));
+            Debug.WriteLine("Karta pierwsza to {0} a druga karta to {1}", card1.Name, card2.Name);
+
+        }
+
+        static void ConvertToHexAndSaveToFile(string inputFilePath, string outputFilePath)
+        {
+            try
+            {
+                // Odczytanie zawartoœci pliku wejœciowego
+                string text = File.ReadAllText(inputFilePath);
+
+                // Zamiana znaków o wartoœci poni¿ej 32 na kropki
+                string sanitizedText = SanitizeText(text);
+
+                // Konwersja znaków na wartoœci szesnastkowe
+                string hexString = ConvertToHexString(sanitizedText);
+
+                // Zapisywanie wyników do pliku tekstowego
+                SaveHexToFile(hexString, outputFilePath);
+
+                Debug.WriteLine("Pomyœlnie przekonwertowano i zapisano dane w pliku.");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Wyst¹pi³ b³¹d: " + ex.Message);
+            }
+        }
+
+        static string SanitizeText(string text)
+        {
+            StringBuilder sanitizedText = new StringBuilder();
+            foreach (char c in text)
+            {
+                if (c < 32)
+                {
+                    sanitizedText.Append('.');
+                }
+                else
+                {
+                    sanitizedText.Append(c);
+                }
+            }
+            return sanitizedText.ToString();
+        }
+
+        static string ConvertToHexString(string text)
+        {
+            StringBuilder hexString = new StringBuilder();
+            foreach (char c in text)
+            {
+                hexString.AppendFormat("{0:X2}", (int)c);
+            }
+            return hexString.ToString();
+        }
+
+        static void SaveHexToFile(string hexString, string outputFilePath)
+        {
+            // int position siê nie odœwierza
+            int position = 0;
+
+            using (StreamWriter writer = new StreamWriter(outputFilePath))
+            {
+                int count = 0;
+                writer.WriteLine();
+                Debug.WriteLine(string.Empty);
+                writer.Write(String.Format("{0:x4}:  ",position));
+                Debug.Write(String.Format("{0:x3}:  ", position));
+                for (int i = 0; i < hexString.Length; i++)
+                {
+
+                    writer.Write(hexString[i]);
+                    Debug.Write(hexString[i]);
+                    count++;
+
+                    // Dodawanie przerwy co 16 znaków
+                    if (count % 16 == 0)
+                    {
+                        writer.Write(" --- ");
+                        Debug.Write(" --- ");
+                    }
+
+                    // Ograniczanie maksymalnej d³ugoœci linii do 32 znaków
+                    if (count % 32 == 0)
+                    {
+                        writer.WriteLine();
+                        Debug.WriteLine("");
+                    }
+                    position += count;
+                }
+            }
+        }
+        private void button3_Click(object sender, EventArgs e)
+        {
+            //int position = 0;
+
+            ///// nie mo¿na dostaæ accesu do pliku jednoczeœnie dla readera i writera
+            //{
+
+
+            //    StreamReader reader = new StreamReader(@"C:\\C# pliki tekstowe\\Deck.json");
+
+
+            //    while (!reader.EndOfStream)
+            //    {
+            //        char[] buffer = new char[16];
+            //        int charactersRead = reader.Read(buffer, 0, 16);
+            //        reader.Close();
+            //        StreamWriter writer = new StreamWriter(@"C:\\C# pliki tekstowe\\Deck.json", false);
+            //        writer.Write("{0}:", String.Format("{0:4}", position));
+
+            //        position += charactersRead;
+            //        for (int i = 0; i < 16; i++)
+            //        {
+            //            if (i < charactersRead)
+            //            {
+            //                string hex = string.Format("{0:x2}", (byte)buffer[i]);
+            //                writer.Write(hex + " ");
+            //            }
+            //            else
+            //            {
+            //                writer.Write("   ");
+            //                if (i == 7) { writer.Write(" -- "); }
+            //                if (buffer[i] < 32 || buffer[i] > 250) { buffer[i] = '.'; }
+            //            }
+            //        }
+            //        string bufferContents = new string(buffer);
+            //        writer.Write("  " + bufferContents.Substring(0, charactersRead));
+            //    }
+            //}
+            //string inputFilePath = @"C:\\C# pliki tekstowe\\Deck.json";
+            string outputFilePath = @"C:\C# pliki tekstowe\output.txt";
+
+            ConvertToHexAndSaveToFile(pathJSONDirectory, outputFilePath);
+
         }
     }
 }

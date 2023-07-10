@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace UnicodeCharacters
 {
@@ -11,7 +11,7 @@ namespace UnicodeCharacters
 
         private void button1_Click(object sender, EventArgs e)
         {
-            File.WriteAllText("eureka.txt", "Eureka!");
+            File.WriteAllText("eureka.txt", "ݤݥݨݫݯݩݙݖ");
             byte[] eurekaBytes = File.ReadAllBytes("eureka.txt");
             foreach (byte b in eurekaBytes)
                 Debug.Write(b + " ");
@@ -22,7 +22,7 @@ namespace UnicodeCharacters
         {
             byte[] eurekaBytes = File.ReadAllBytes("eureka.txt");
             foreach (byte b in eurekaBytes)
-                Debug.Write(b + " ");
+                Debug.WriteLine("{0:x2}", b,"dasdadsa");
             Debug.WriteLine("");
         }
 
