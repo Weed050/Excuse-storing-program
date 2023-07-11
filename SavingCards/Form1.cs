@@ -191,25 +191,25 @@ namespace SavingCards
             StringBuilder hexString = new StringBuilder();
             foreach (char c in text)
             {
-                hexString.AppendFormat("{0:X2}", (int)c);
+                hexString.AppendFormat(" {0:X2}", (int)c);
             }
             return hexString.ToString();
         }
 
         static void SaveHexToFile(string hexString, string outputFilePath)
         {
-            // int position siê nie odœwierza
-            int position = 0;
-
             using (StreamWriter writer = new StreamWriter(outputFilePath))
             {
                 int count = 0;
-                writer.WriteLine();
-                Debug.WriteLine(string.Empty);
-                writer.Write(String.Format("{0:x4}:  ",position));
-                Debug.Write(String.Format("{0:x3}:  ", position));
+                bool end = false;
                 for (int i = 0; i < hexString.Length; i++)
                 {
+                    // Wyœwietlanie liczby wyœwietlonych znaków przed lini¹
+                    if (count % 32 == 0)
+                    {
+                        writer.Write($"{count:0000}: ");
+                        Debug.Write($"{count:0000}: ");
+                    }
 
                     writer.Write(hexString[i]);
                     Debug.Write(hexString[i]);
@@ -218,17 +218,23 @@ namespace SavingCards
                     // Dodawanie przerwy co 16 znaków
                     if (count % 16 == 0)
                     {
-                        writer.Write(" --- ");
-                        Debug.Write(" --- ");
+                        if (!end)
+                        {
+                            writer.Write(" --- ");
+                            Debug.Write(" --- ");
+                            end = true;
+                        }
+                        else
+                            end = false;
+
                     }
 
                     // Ograniczanie maksymalnej d³ugoœci linii do 32 znaków
                     if (count % 32 == 0)
                     {
                         writer.WriteLine();
-                        Debug.WriteLine("");
+                        Debug.WriteLine(string.Empty);
                     }
-                    position += count;
                 }
             }
         }
