@@ -161,6 +161,7 @@ namespace SavingCards
                 // Zapisywanie wyników do pliku tekstowego
                 SaveHexToFile(hexString, outputFilePath);
 
+                Debug.WriteLine(string.Empty);
                 Debug.WriteLine("Pomyœlnie przekonwertowano i zapisano dane w pliku.");
             }
             catch (Exception ex)
@@ -238,49 +239,31 @@ namespace SavingCards
                 }
             }
         }
-        private void button3_Click(object sender, EventArgs e)
+
+
+        private void converdToHexBtn_Click(object sender, EventArgs e)
         {
-            //int position = 0;
-
-            ///// nie mo¿na dostaæ accesu do pliku jednoczeœnie dla readera i writera
-            //{
-
-
-            //    StreamReader reader = new StreamReader(@"C:\\C# pliki tekstowe\\Deck.json");
-
-
-            //    while (!reader.EndOfStream)
-            //    {
-            //        char[] buffer = new char[16];
-            //        int charactersRead = reader.Read(buffer, 0, 16);
-            //        reader.Close();
-            //        StreamWriter writer = new StreamWriter(@"C:\\C# pliki tekstowe\\Deck.json", false);
-            //        writer.Write("{0}:", String.Format("{0:4}", position));
-
-            //        position += charactersRead;
-            //        for (int i = 0; i < 16; i++)
-            //        {
-            //            if (i < charactersRead)
-            //            {
-            //                string hex = string.Format("{0:x2}", (byte)buffer[i]);
-            //                writer.Write(hex + " ");
-            //            }
-            //            else
-            //            {
-            //                writer.Write("   ");
-            //                if (i == 7) { writer.Write(" -- "); }
-            //                if (buffer[i] < 32 || buffer[i] > 250) { buffer[i] = '.'; }
-            //            }
-            //        }
-            //        string bufferContents = new string(buffer);
-            //        writer.Write("  " + bufferContents.Substring(0, charactersRead));
-            //    }
-            //}
-            //string inputFilePath = @"C:\\C# pliki tekstowe\\Deck.json";
             string outputFilePath = @"C:\C# pliki tekstowe\output.txt";
 
             ConvertToHexAndSaveToFile(pathJSONDirectory, outputFilePath);
 
+        }
+
+        private void openFileBtn_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Pliki tekstowe (*.txt) |*.txt|" + "Pliki JSON (*.json)|*.json|" + "Wszystkie pliki (*.*)|*.*";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                pathJSONDirectory = openFileDialog1.FileName;
+            }
+        }
+
+        private void saveFileBtn_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                ConvertToHexAndSaveToFile(pathJSONDirectory, saveFileDialog1.FileName);
+            }
         }
     }
 }

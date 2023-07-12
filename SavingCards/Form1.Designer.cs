@@ -34,7 +34,12 @@
             open3DecksBtn = new Button();
             button1 = new Button();
             button2 = new Button();
-            button3 = new Button();
+            converdToHexBtn = new Button();
+            saveFileDialog1 = new SaveFileDialog();
+            openFileDialog1 = new OpenFileDialog();
+            openFileBtn = new Button();
+            saveFileBtn = new Button();
+            label1 = new Label();
             SuspendLayout();
             // 
             // createNGenerateDeckBtn
@@ -97,22 +102,58 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
-            // button3
+            // converdToHexBtn
             // 
-            button3.Location = new Point(247, 52);
-            button3.Name = "button3";
-            button3.Size = new Size(94, 29);
-            button3.TabIndex = 6;
-            button3.Text = "button3";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
+            converdToHexBtn.Location = new Point(12, 82);
+            converdToHexBtn.Name = "converdToHexBtn";
+            converdToHexBtn.Size = new Size(238, 29);
+            converdToHexBtn.TabIndex = 6;
+            converdToHexBtn.Text = "Converd file to hex and save it";
+            converdToHexBtn.UseVisualStyleBackColor = true;
+            converdToHexBtn.Click += converdToHexBtn_Click;
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // openFileBtn
+            // 
+            openFileBtn.Location = new Point(12, 12);
+            openFileBtn.Name = "openFileBtn";
+            openFileBtn.Size = new Size(238, 29);
+            openFileBtn.TabIndex = 7;
+            openFileBtn.Text = "Choose file to convert";
+            openFileBtn.UseVisualStyleBackColor = true;
+            openFileBtn.Click += openFileBtn_Click;
+            // 
+            // saveFileBtn
+            // 
+            saveFileBtn.Location = new Point(12, 47);
+            saveFileBtn.Name = "saveFileBtn";
+            saveFileBtn.Size = new Size(238, 29);
+            saveFileBtn.TabIndex = 8;
+            saveFileBtn.Text = "Save converted text to file";
+            saveFileBtn.UseVisualStyleBackColor = true;
+            saveFileBtn.Click += saveFileBtn_Click;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(256, 86);
+            label1.Name = "label1";
+            label1.Size = new Size(66, 20);
+            label1.TabIndex = 9;
+            label1.Text = "(default)";
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(button3);
+            Controls.Add(label1);
+            Controls.Add(saveFileBtn);
+            Controls.Add(openFileBtn);
+            Controls.Add(converdToHexBtn);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(open3DecksBtn);
@@ -122,6 +163,7 @@
             Name = "Form1";
             Text = "Form1";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -132,6 +174,11 @@
         private Button open3DecksBtn;
         private Button button1;
         private Button button2;
-        private Button button3;
+        private Button converdToHexBtn;
+        private SaveFileDialog saveFileDialog1;
+        private OpenFileDialog openFileDialog1;
+        private Button openFileBtn;
+        private Button saveFileBtn;
+        private Label label1;
     }
 }

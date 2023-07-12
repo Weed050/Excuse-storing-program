@@ -57,10 +57,7 @@ namespace FileEditor
 
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            //if(saveFileDialog1.ShowDialog() == DialogResult.OK)
-            //{
 
-            //}
             if (string.IsNullOrEmpty(resultTextBox.Text) || string.IsNullOrEmpty(excuseTextBox.Text))
             {
                 MessageBox.Show("Musisz podaæ wymówkê i rezultat", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
